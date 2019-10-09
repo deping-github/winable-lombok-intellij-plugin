@@ -16,6 +16,7 @@ import de.plushnikov.intellij.plugin.util.LombokProcessorUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
 import de.plushnikov.intellij.plugin.util.PsiMethodUtil;
+import lombok.NotData;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
@@ -82,6 +83,12 @@ public class SetterProcessor extends AbstractClassProcessor {
 
     final Collection<PsiField> setterFields = new ArrayList<>();
     for (PsiField psiField : psiClass.getFields()) {
+
+      PsiAnnotation notDataAnnotation = PsiAnnotationSearchUtil.findAnnotation(psiField, NotData.class);
+      if (notDataAnnotation != null) {
+        continue;
+      }
+
       boolean createSetter = true;
       PsiModifierList modifierList = psiField.getModifierList();
       if (null != modifierList) {

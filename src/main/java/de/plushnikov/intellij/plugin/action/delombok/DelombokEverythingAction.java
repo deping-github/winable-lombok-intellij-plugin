@@ -6,6 +6,7 @@ import de.plushnikov.intellij.plugin.processor.clazz.EqualsAndHashCodeProcessor;
 import de.plushnikov.intellij.plugin.processor.clazz.GetterProcessor;
 import de.plushnikov.intellij.plugin.processor.clazz.SetterProcessor;
 import de.plushnikov.intellij.plugin.processor.clazz.ToStringProcessor;
+import de.plushnikov.intellij.plugin.processor.clazz.TransactionDataProcessor;
 import de.plushnikov.intellij.plugin.processor.clazz.UtilityClassProcessor;
 import de.plushnikov.intellij.plugin.processor.clazz.ValueProcessor;
 import de.plushnikov.intellij.plugin.processor.clazz.WitherProcessor;
@@ -53,12 +54,18 @@ public class DelombokEverythingAction extends AbstractDelombokAction {
       ServiceManager.getService(ValueProcessor.class),
       ServiceManager.getService(WitherProcessor.class),
       ServiceManager.getService(SetterProcessor.class),
+      ServiceManager.getService(TransactionDataProcessor.class),
       ServiceManager.getService(EqualsAndHashCodeProcessor.class),
       ServiceManager.getService(ToStringProcessor.class),
 
-      ServiceManager.getService(CommonsLogProcessor.class), ServiceManager.getService(JBossLogProcessor.class), ServiceManager.getService(Log4jProcessor.class),
-      ServiceManager.getService(Log4j2Processor.class), ServiceManager.getService(LogProcessor.class), ServiceManager.getService(Slf4jProcessor.class),
-      ServiceManager.getService(XSlf4jProcessor.class), ServiceManager.getService(FloggerProcessor.class),
+      ServiceManager.getService(CommonsLogProcessor.class),
+      ServiceManager.getService(JBossLogProcessor.class),
+      ServiceManager.getService(Log4jProcessor.class),
+      ServiceManager.getService(Log4j2Processor.class),
+      ServiceManager.getService(LogProcessor.class),
+      ServiceManager.getService(Slf4jProcessor.class),
+      ServiceManager.getService(XSlf4jProcessor.class),
+      ServiceManager.getService(FloggerProcessor.class),
 
       ServiceManager.getService(GetterFieldProcessor.class),
       ServiceManager.getService(SetterFieldProcessor.class),

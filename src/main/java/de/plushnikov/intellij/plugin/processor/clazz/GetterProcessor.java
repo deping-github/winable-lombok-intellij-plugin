@@ -19,6 +19,7 @@ import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
 import de.plushnikov.intellij.plugin.util.PsiMethodUtil;
 import lombok.Getter;
+import lombok.NotData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -90,6 +91,12 @@ public class GetterProcessor extends AbstractClassProcessor {
     filterToleratedElements(classMethods);
 
     for (PsiField psiField : psiClass.getFields()) {
+
+      PsiAnnotation notDataAnnotation = PsiAnnotationSearchUtil.findAnnotation(psiField, NotData.class);
+      if (notDataAnnotation != null) {
+        continue;
+      }
+
       boolean createGetter = true;
       PsiModifierList modifierList = psiField.getModifierList();
       if (null != modifierList) {

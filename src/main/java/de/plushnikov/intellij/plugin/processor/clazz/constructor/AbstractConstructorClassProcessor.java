@@ -21,6 +21,7 @@ import de.plushnikov.intellij.plugin.util.PsiClassUtil;
 import de.plushnikov.intellij.plugin.util.PsiElementUtil;
 import de.plushnikov.intellij.plugin.util.PsiMethodUtil;
 import lombok.Builder;
+import lombok.NotData;
 import lombok.Value;
 import lombok.experimental.NonFinal;
 import org.jetbrains.annotations.NotNull;
@@ -164,6 +165,12 @@ public abstract class AbstractConstructorClassProcessor extends AbstractClassPro
     Collection<PsiField> allNotInitializedNotStaticFields = new ArrayList<>();
     final boolean classAnnotatedWithValue = PsiAnnotationSearchUtil.isAnnotatedWith(psiClass, Value.class);
     for (PsiField psiField : psiClass.getFields()) {
+
+      PsiAnnotation notDataAnnotation = PsiAnnotationSearchUtil.findAnnotation(psiField, NotData.class);
+      if (notDataAnnotation != null) {
+        continue;
+      }
+
       // skip fields named $
       boolean addField = !psiField.getName().startsWith(LombokUtils.LOMBOK_INTERN_FIELD_MARKER);
 

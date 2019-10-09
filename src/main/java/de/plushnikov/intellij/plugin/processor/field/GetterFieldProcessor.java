@@ -20,6 +20,7 @@ import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
 import de.plushnikov.intellij.plugin.util.PsiMethodUtil;
 import lombok.Getter;
+import lombok.NotData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -51,6 +52,13 @@ public class GetterFieldProcessor extends AbstractFieldProcessor {
 
     final String methodVisibility = LombokProcessorUtil.getMethodModifier(psiAnnotation);
     result = null != methodVisibility;
+
+    if (result) {
+      PsiAnnotation notDataAnnotation = PsiAnnotationSearchUtil.findAnnotation(psiField, NotData.class);
+      if (notDataAnnotation != null) {
+        result = false;
+      }
+    }
 
     final boolean lazy = isLazyGetter(psiAnnotation);
     if (null == methodVisibility && lazy) {

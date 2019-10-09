@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
  */
 @State(
   name = "LombokSettings",
-  storages = @Storage("lombok-plugin.xml")
+  storages = @Storage("winable-lombok-plugin.xml")
 )
 public class LombokSettings implements PersistentStateComponent<LombokPluginState> {
 

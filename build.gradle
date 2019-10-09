@@ -5,14 +5,16 @@ plugins {
 }
 
 repositories {
+  mavenLocal()
   jcenter()
   mavenCentral()
+  //maven { url "C:/Users/vm/.m2/repository", url "https://www.jitpack.io" }
   maven { url "https://www.jitpack.io" }
 }
 // Fix Bug https://github.com/jitpack/jitpack.io/issues/3973
-project.repositories.removeAll {
-  it instanceof MavenArtifactRepository && it.url.toString() == 'https://jitpack.io'
-}
+//project.repositories.removeAll {//
+//  it instanceof MavenArtifactRepository && it.url.toString() == 'https://jitpack.io'
+//}
 
 
 apply plugin: 'java'
@@ -40,6 +42,8 @@ tasks.withType(JavaCompile) {
   options.encoding = 'UTF-8'
 //  options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 }
+
+[compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
 
 sourceSets {
   main {
@@ -91,7 +95,7 @@ configurations {
 }
 
 dependencies {
-  lombok group: 'org.projectlombok', name: 'lombok', version: '1.18.10', classifier: 'sources', ext: 'jar'
+  lombok group: 'org.projectlombok', name: 'winable-lombok', version: '1.18.10', classifier: 'sources', ext: 'jar'
 
   testCompile group: 'junit', name: 'junit', version: '4.12'
   testCompile group: 'org.mockito', name: 'mockito-core', version: '3.1.0'
@@ -111,6 +115,8 @@ copy {
     include 'lombok/Delegate.java'
     include 'lombok/Getter.java'
     include 'lombok/Setter.java'
+    include 'lombok/NotData.java'
+    include 'lombok/TransactionData.java'
     include 'lombok/EqualsAndHashCode.java'
     include 'lombok/NonNull.java'
     include 'lombok/Synchronized.java'

@@ -20,6 +20,7 @@ import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
 import de.plushnikov.intellij.plugin.util.PsiMethodUtil;
+import lombok.NotData;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
@@ -51,6 +52,14 @@ public class SetterFieldProcessor extends AbstractFieldProcessor {
   protected boolean validate(@NotNull PsiAnnotation psiAnnotation, @NotNull PsiField psiField, @NotNull ProblemBuilder builder) {
     boolean result;
     result = validateFinalModifier(psiAnnotation, psiField, builder);
+
+    if (result) {
+      PsiAnnotation notDataAnnotation = PsiAnnotationSearchUtil.findAnnotation(psiField, NotData.class);
+      if (notDataAnnotation != null) {
+        result = false;
+      }
+    }
+
     if (result) {
       result = validateVisibility(psiAnnotation);
       if (result) {

@@ -2,7 +2,22 @@ package de.plushnikov.intellij.plugin.processor.handler;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.*;
+import com.intellij.psi.CommonClassNames;
+import com.intellij.psi.PsiAnnotation;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiClassType;
+import com.intellij.psi.PsiExpression;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiManager;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiModifier;
+import com.intellij.psi.PsiModifierList;
+import com.intellij.psi.PsiModifierListOwner;
+import com.intellij.psi.PsiParameter;
+import com.intellij.psi.PsiSubstitutor;
+import com.intellij.psi.PsiType;
+import com.intellij.psi.PsiTypeParameter;
+import com.intellij.psi.PsiVariable;
 import com.intellij.psi.impl.PsiImplUtil;
 import com.intellij.psi.impl.source.PsiClassReferenceType;
 import de.plushnikov.intellij.plugin.processor.field.AccessorsInfo;
@@ -13,6 +28,7 @@ import de.plushnikov.intellij.plugin.util.PsiAnnotationSearchUtil;
 import de.plushnikov.intellij.plugin.util.PsiAnnotationUtil;
 import de.plushnikov.intellij.plugin.util.PsiClassUtil;
 import lombok.Builder;
+import lombok.NotData;
 import lombok.Singular;
 import org.jetbrains.annotations.NotNull;
 
@@ -130,6 +146,12 @@ public class BuilderInfo {
   }
 
   public boolean useForBuilder() {
+
+    PsiAnnotation notDataAnnotation = PsiAnnotationSearchUtil.findAnnotation(variableInClass, NotData.class);
+    if (notDataAnnotation != null) {
+      return false;
+    }
+
     boolean result = true;
 
     PsiModifierList modifierList = variableInClass.getModifierList();
